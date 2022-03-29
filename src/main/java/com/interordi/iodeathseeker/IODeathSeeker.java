@@ -23,6 +23,9 @@ public class IODeathSeeker extends JavaPlugin {
 		//Read the current stats
 		this.stats.loadStats();
 
+		//Init players data
+		PlayerTracking.initScore();
+
 		//Save the config every minute
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, stats, 60*20L, 60*20L);
 		

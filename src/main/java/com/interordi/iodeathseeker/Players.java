@@ -20,13 +20,15 @@ public class Players {
 
 	public void addPlayer(Player player) {
 
-		tracking.put(player.getUniqueId(), new PlayerTracking(player.getUniqueId()));
+		tracking.put(player.getUniqueId(), new PlayerTracking(player));
 	}
 
 
 	public void removePlayer(Player player) {
 
 		plugin.stats.saveStats();
+		PlayerTracking pt = tracking.get(player.getUniqueId());
+		pt.removeScore();
 		tracking.remove(player.getUniqueId());
 	}
 
