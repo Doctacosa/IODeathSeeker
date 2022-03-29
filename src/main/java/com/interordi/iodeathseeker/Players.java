@@ -21,6 +21,7 @@ public class Players {
 	public void addPlayer(Player player) {
 
 		tracking.put(player.getUniqueId(), new PlayerTracking(player));
+		plugin.stats.loadPlayer(player.getUniqueId());
 	}
 
 

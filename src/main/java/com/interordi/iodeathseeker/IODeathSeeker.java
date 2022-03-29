@@ -20,9 +20,6 @@ public class IODeathSeeker extends JavaPlugin {
 		stats = new Stats(this);
 		players = new Players(this);
 		
-		//Read the current stats
-		this.stats.loadStats();
-
 		//Init players data
 		PlayerTracking.initScore();
 
