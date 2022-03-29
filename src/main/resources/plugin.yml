@@ -1,0 +1,6 @@
+name: IODeathSeeker
+main: com.interordi.iodeathseeker.IODeathSeeker
+version: 1.0
+api-version: 1.13
+
+commands:
