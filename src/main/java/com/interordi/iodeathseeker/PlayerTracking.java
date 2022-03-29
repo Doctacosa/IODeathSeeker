@@ -68,7 +68,7 @@ public class PlayerTracking {
 		if (objective != null)
 			objective.unregister();
 		
-		objective = board.registerNewObjective("deaths", "dummy", "Unique deaths");
+		objective = board.registerNewObjective("deaths", "dummy", "Unique Deaths");
 		board.clearSlot(DisplaySlot.SIDEBAR);
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
@@ -96,7 +96,7 @@ public class PlayerTracking {
 			objective.unregister();
 			objective = null;
 			
-			objective = board.registerNewObjective("deaths", "dummy", "Unique deaths");
+			objective = board.registerNewObjective("deaths", "dummy", "Unique Deaths");
 			board.clearSlot(DisplaySlot.SIDEBAR);
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 			
