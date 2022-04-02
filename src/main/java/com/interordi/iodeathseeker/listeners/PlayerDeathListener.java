@@ -40,11 +40,11 @@ public class PlayerDeathListener implements Listener {
 				if (nEvent.getDamager() instanceof Projectile) {
 					final Projectile projectile = (Projectile)nEvent.getDamager();
 					Entity temp = (Entity)projectile.getShooter();
-					killerName = temp.getType().toString().toLowerCase();
+					killerName = cleanName(temp.getType().toString());
 				}
 				//Just a regular mob kill
 				else {
-					killerName = nEvent.getDamager().getType().toString().toLowerCase();
+					killerName = cleanName(nEvent.getDamager().getType().toString());
 				}
 			}
 		}
@@ -53,6 +53,11 @@ public class PlayerDeathListener implements Listener {
 
 		if (message.length() > 0)
 			this.plugin.players.logDeath(event.getEntity().getUniqueId(), message, 1);
+	}
+
+
+	public static String cleanName(String name) {
+		return name.toLowerCase().replace("_", " ").trim();
 	}
 	
 }
