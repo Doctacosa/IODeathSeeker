@@ -85,8 +85,10 @@ public class PlayerDeathListener implements Listener {
 				//If the damage came from a projectile, find said projectile's owner
 				if (nEvent.getDamager() instanceof Projectile) {
 					final Projectile projectile = (Projectile)nEvent.getDamager();
-					Entity temp = (Entity)projectile.getShooter();
-					killerName = cleanName(temp.getType().toString());
+					if (projectile.getShooter() instanceof Entity) {
+						Entity temp = (Entity)projectile.getShooter();
+						killerName = cleanName(temp.getType().toString());
+					}
 				}
 				//Just a regular mob kill
 				else {
