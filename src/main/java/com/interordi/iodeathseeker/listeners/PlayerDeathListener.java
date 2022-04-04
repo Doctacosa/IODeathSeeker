@@ -87,7 +87,8 @@ public class PlayerDeathListener implements Listener {
 					final Projectile projectile = (Projectile)nEvent.getDamager();
 					if (projectile.getShooter() instanceof Entity) {
 						Entity temp = (Entity)projectile.getShooter();
-						killerName = cleanName(temp.getType().toString());
+						if (temp != null)
+							killerName = cleanName(temp.getType().toString());
 					}
 				}
 				//Just a regular mob kill
