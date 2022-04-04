@@ -67,7 +67,8 @@ public class PlayerDeathListener implements Listener {
 		}
 
 		//This isn't perfect and doesn't need to be - at worst, it will be ignored
-		lastMobDamage.put(target.getUniqueId(), attacker.getName().toString());
+		if (attacker != null)
+			lastMobDamage.put(target.getUniqueId(), attacker.getName().toString());
 	}
 	
 	
