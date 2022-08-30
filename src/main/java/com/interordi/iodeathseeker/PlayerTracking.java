@@ -49,6 +49,7 @@ public class PlayerTracking {
 
 
 	public void logDeath(String death, Integer count) {
+		death = death.toLowerCase();
 		if (this.deaths.containsKey(death)) {
 			Integer deathCount = this.deaths.get(death);
 			this.deaths.put(death, deathCount + count);
