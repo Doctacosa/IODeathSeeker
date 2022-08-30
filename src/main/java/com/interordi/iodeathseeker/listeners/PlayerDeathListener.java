@@ -21,11 +21,16 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 public class PlayerDeathListener implements Listener {
 
 	private IODeathSeeker plugin;
-	private Map< UUID, String > lastMobDamage;
+	private Map< UUID, String > lastMobName;
+	private Map< UUID, String > lastMobType;
+	private boolean ignoreMobs;
 	
-	public PlayerDeathListener(IODeathSeeker plugin) {
+	public PlayerDeathListener(IODeathSeeker plugin, boolean ignoreMobs) {
 		this.plugin = plugin;
-		lastMobDamage = new HashMap< UUID, String >();
+		this.ignoreMobs = ignoreMobs;
+		
+		lastMobName = new HashMap< UUID, String >();
+		lastMobType = new HashMap< UUID, String >();
 		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -68,8 +73,10 @@ public class PlayerDeathListener implements Listener {
 		}
 
 		//This isn't perfect and doesn't need to be - at worst, it will be ignored
-		if (attacker != null)
-			lastMobDamage.put(target.getUniqueId(), attacker.getName().toString());
+		if (attacker != null) {
+			lastMobName.put(target.getUniqueId(), attacker.getName().toString());
+			lastMobType.put(target.getUniqueId(), attacker.getType().toString());
+		}
 	}
 	
 	
@@ -79,6 +86,7 @@ public class PlayerDeathListener implements Listener {
 
 		//Replace the killer's name
 		String killerName = "";
+		String killerType = "";
 		EntityDamageEvent lastDamage = event.getEntity().getLastDamageCause();
 		if (lastDamage != null && lastDamage instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent)lastDamage;
@@ -89,13 +97,16 @@ public class PlayerDeathListener implements Listener {
 					final Projectile projectile = (Projectile)nEvent.getDamager();
 					if (projectile.getShooter() instanceof Entity) {
 						Entity temp = (Entity)projectile.getShooter();
-						if (temp != null)
-							killerName = cleanName(temp.getType().toString());
+						if (temp != null) {
+							killerName = cleanName(temp.getName().toString());
+							killerType = cleanName(temp.getType().toString());
+						}
 					}
 				}
 				//Just a regular mob kill
 				else {
-					killerName = cleanName(nEvent.getDamager().getType().toString());
+					killerName = cleanName(nEvent.getDamager().getName().toString());
+					killerType = cleanName(nEvent.getDamager().getType().toString());
 				}
 			}
 		} else if (lastDamage != null && lastDamage instanceof EntityDamageByBlockEvent) {
@@ -112,12 +123,20 @@ public class PlayerDeathListener implements Listener {
 		message = message.replace(event.getEntity().getDisplayName().toLowerCase(), "").trim();
 
 		//Remove the killer's name
-		message = message.replace(killerName, "").trim();
+		if (ignoreMobs)
+			message = message.replace(killerName, "").trim();
+		else
+			message = message.replace(killerName, killerType).trim();
 
 		//Remove the last damager's name
-		String lastMobName = lastMobDamage.get(event.getEntity().getUniqueId());
-		if (lastMobName != null)
-			message = message.replace(cleanName(lastMobName), "").trim();
+		String checkMobName = lastMobName.get(event.getEntity().getUniqueId());
+		String checkMobType = lastMobType.get(event.getEntity().getUniqueId());
+		if (checkMobName != null) {
+			if (ignoreMobs)
+				message = message.replace(cleanName(checkMobName), "").trim();
+			else
+				message = message.replace(cleanName(checkMobName), cleanName(checkMobType)).trim();
+		}
 
 
 		if (message.length() > 0)

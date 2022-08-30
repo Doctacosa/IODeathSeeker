@@ -12,11 +12,18 @@ public class IODeathSeeker extends JavaPlugin {
 	public PlayerDeathListener thisPlayerDeathListener;
 	public Players players;
 	public Stats stats;
+	private boolean ignoreMobs = true;
 	
 	
 	public void onEnable() {
+		//Always ensure we've got a copy of the config in place (does not overwrite existing)
+		this.saveDefaultConfig();
+
+		if (this.getConfig().contains("ignore-mobs"))
+			ignoreMobs = this.getConfig().getBoolean("ignore-mobs");
+		
 		thisLoginListener = new LoginListener(this);
-		thisPlayerDeathListener = new PlayerDeathListener(this);
+		thisPlayerDeathListener = new PlayerDeathListener(this, ignoreMobs);
 		stats = new Stats(this);
 		players = new Players(this);
 		
