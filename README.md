@@ -41,7 +41,7 @@ To understand how this is played from a player's perspective, [see this guide on
 
 1. Download the plugin and place it in the `plugins/` directory of the server.
 2. Start and stop the server to create the configuration files.
-3. Edit `plugins/IOGrindatron/config.yml` to set your settings, described below.
+3. Edit `plugins/IODeathSeeker/config.yml` to set your settings, described below.
 
 
 ## Configuration
