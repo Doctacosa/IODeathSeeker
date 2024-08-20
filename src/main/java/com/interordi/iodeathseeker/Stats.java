@@ -31,7 +31,9 @@ public class Stats implements Runnable {
 	}
 	
 	
-	public void loadStats() {
+	public Map< UUID, Integer > loadStats() {
+		Map< UUID, Integer > scores = new HashMap< UUID, Integer>();
+
 		File statsFile = new File(this.statsPath);
 
 		try {
@@ -43,17 +45,17 @@ public class Stats implements Runnable {
 		} catch (IOException e) {
 			System.err.println("Failed to load the stats file");
 			e.printStackTrace();
-			return;
+			return scores;
 		}
 
 		FileConfiguration statsAccess = YamlConfiguration.loadConfiguration(statsFile);
 		
 		ConfigurationSection deathsData = statsAccess.getConfigurationSection("deaths");
 		if (deathsData == null)
-			return;	//Nothing yet, exit
+			return scores;	//Nothing yet, exit
 		Set< String > cs = deathsData.getKeys(false);
 		if (cs == null)
-			return;	//No players found, exit
+			return scores;	//No players found, exit
 		
 		
 		//Loop on each player
@@ -65,10 +67,11 @@ public class Stats implements Runnable {
 			
 			//Loop on each death for this player
 			for (String deathMessage : rs) {
-				Integer nbDeaths = playerData.getInt(deathMessage);
-				this.plugin.players.logDeath(uuid, deathMessage, nbDeaths);
+				scores.put(uuid, playerData.getInt(deathMessage));
 			}
 		}
+
+		return scores;
 	}
 	
 	
