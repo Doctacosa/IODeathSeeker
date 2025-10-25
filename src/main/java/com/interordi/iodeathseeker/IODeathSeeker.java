@@ -3,6 +3,7 @@ package com.interordi.iodeathseeker;
 import com.interordi.iodeathseeker.listeners.LoginListener;
 import com.interordi.iodeathseeker.listeners.PlayerDeathListener;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -33,6 +34,10 @@ public class IODeathSeeker extends JavaPlugin {
 		//Save the config every minute
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, stats, 60*20L, 60*20L);
 		
+		//Enable metrics
+		@SuppressWarnings("unused")
+		Metrics metrics = new Metrics(this, 27721);
+
 		getLogger().info("IODeathSeeker enabled");
 	}
 	
