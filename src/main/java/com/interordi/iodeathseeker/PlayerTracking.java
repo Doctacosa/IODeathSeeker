@@ -55,6 +55,6 @@ public class PlayerTracking {
 			this.deaths.put(death, count);
 		}
 
-		plugin.getScores().updateScore(player, count);
+		plugin.getScores().updateScore(player, this.deaths.size());
 	}
 }
